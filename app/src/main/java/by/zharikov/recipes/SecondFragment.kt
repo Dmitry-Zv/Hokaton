@@ -5,6 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlinx.android.synthetic.main.fragment_second.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -33,9 +36,57 @@ class SecondFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_second2, container, false)
+        return inflater.inflate(R.layout.fragment_second, container, false)
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val nav = findNavController()
+        buttonGetRecipe.setOnClickListener {
+            if (edit_text_product.text.isNullOrEmpty()) {
+                context?.let { it1 ->
+                    MaterialAlertDialogBuilder(it1)
+                        .setTitle(resources.getString(R.string.error))
+                        .setMessage(resources.getString(R.string.fieldNotEmpty))
+                        .setPositiveButton(resources.getString(R.string.ok)) { dialog, which ->
+                            dialog.cancel()
+                        }
+                        .show()
+                }
+            } else {
+                var count = 0
+                for (recipe in RecipeSet.getRecipe()) {
+                    if (edit_text_product.text.toString() != recipe.mainIngredient) {
+                        count++
+                    }
+                }
+                if (count == RecipeSet.getRecipe().size) {
+                    context?.let { it1 ->
+                        MaterialAlertDialogBuilder(it1)
+                            .setTitle(resources.getString(R.string.error))
+                            .setMessage(resources.getString(R.string.noRecipe))
+                            .setNeutralButton(resources.getString(R.string.ok)) { dialog, which ->
+                                dialog.cancel()
+                            }
+                            .setPositiveButton(resources.getString(R.string.allRecipe)) { dialog, which ->
+                                nav.navigate(R.id.showAllRecipesFragment)
+                            }
+                            .show()
+                    }
+                } else {
+
+                    nav.navigate(SecondFragmentDirections.showThirdFragment(edit_text_product.text.toString()))
+
+                }
+            }
+
+        }
+
+        buttonGetAllRecipes.setOnClickListener {
+            nav.navigate(R.id.showAllRecipesFragment)
+        }
+    }
+
 
     companion object {
         /**
@@ -56,4 +107,5 @@ class SecondFragment : Fragment() {
                 }
             }
     }
+
 }

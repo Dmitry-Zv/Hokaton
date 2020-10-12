@@ -10,32 +10,51 @@
         android:id="@+id/firstFragment"
         android:name="by.zharikov.recipes.FirstFragment"
         android:label="fragment_first2"
-        tools:layout="@layout/fragment_first2" >
+        tools:layout="@layout/fragment_first" >
         <action
-            android:id="@+id/action_firstFragment_to_secondFragment"
+            android:id="@+id/showSecondFragment"
             app:destination="@id/secondFragment" />
     </fragment>
     <fragment
         android:id="@+id/secondFragment"
         android:name="by.zharikov.recipes.SecondFragment"
         android:label="fragment_second2"
-        tools:layout="@layout/fragment_second2" >
+        tools:layout="@layout/fragment_second" >
         <action
-            android:id="@+id/action_secondFragment_to_thirdFragment"
+            android:id="@+id/showThirdFragment"
             app:destination="@id/thirdFragment" />
+        <action
+            android:id="@+id/showAllRecipesFragment"
+            app:destination="@id/allRecipesFragment" />
     </fragment>
     <fragment
         android:id="@+id/thirdFragment"
         android:name="by.zharikov.recipes.ThirdFragment"
         android:label="fragment_third2"
-        tools:layout="@layout/fragment_third2" >
+        tools:layout="@layout/fragment_third" >
         <action
-            android:id="@+id/action_thirdFragment_to_fourthFragment"
+            android:id="@+id/showFourthFragment"
             app:destination="@id/fourthFragment" />
+        <argument
+            android:name="editProductText"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/fourthFragment"
         android:name="by.zharikov.recipes.FourthFragment"
         android:label="fragment_fourth2"
-        tools:layout="@layout/fragment_fourth2" />
+        tools:layout="@layout/fragment_fourth" >
+        <argument
+            android:name="recipeInfo"
+            app:argType="by.zharikov.recipes.Recipe" />
+    </fragment>
+    <fragment
+        android:id="@+id/allRecipesFragment"
+        android:name="by.zharikov.recipes.AllRecipesFragment"
+        android:label="AllRecipesFragment"
+        tools:layout="@layout/fragment_all_recipes">
+        <action
+            android:id="@+id/fromAllRecipeShowFourthFragment"
+            app:destination="@id/fourthFragment" />
+    </fragment>
 </navigation>

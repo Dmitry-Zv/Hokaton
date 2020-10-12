@@ -1,10 +1,13 @@
 package by.zharikov.recipes
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.fragment_fourth.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -34,7 +37,16 @@ class FourthFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_fourth2, container, false)
+        return inflater.inflate(R.layout.fragment_fourth, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val recipeInfo = FourthFragmentArgs.fromBundle(requireArguments()).recipeInfo
+        Log.d("Reipe info", "$recipeInfo")
+        recipeTextName.text = recipeInfo.name
+        recipeTextView.text = recipeInfo.recipeDish
+        Picasso.get().load(recipeInfo.urlPicture).into(imageViewRecipe)
     }
 
     companion object {
