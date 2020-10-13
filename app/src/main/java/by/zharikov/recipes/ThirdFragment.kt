@@ -5,6 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.android.synthetic.main.fragment_third.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -33,10 +36,30 @@ class ThirdFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_third2, container, false)
+        return inflater.inflate(R.layout.fragment_third, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val editProductText = ThirdFragmentArgs.fromBundle(requireArguments()).editProductText
+            val adapter = RecycleAdapter(filterRecipe(editProductText)) { recipe ->
+                findNavController().navigate(ThirdFragmentDirections.showFourthFragment(recipe))
+            }
+            recipesRecycler.adapter = adapter
+            recipesRecycler.layoutManager = LinearLayoutManager(context)
+
+    }
+
+    private fun filterRecipe(editProductText:String): List<Recipe> {
+        val recipes = RecipeSet.getRecipe()
+        val filterRecipe = mutableListOf<Recipe>()
+        for (recipe in recipes) {
+            if (editProductText == recipe.mainIngredient) {
+                filterRecipe.add(recipe)
+            }
+        }
+        return filterRecipe
+    }
     companion object {
         /**
          * Use this factory method to create a new instance of
